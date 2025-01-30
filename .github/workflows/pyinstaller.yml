@@ -22,8 +22,7 @@ jobs:
 
     - name: install dependencies
       run: |
-        pip install pywebview==5.4
-        pip install pyinstaller
+        pip install pywebview==5.4 cryptography pyinstaller
 
     - name: Build
       run: |

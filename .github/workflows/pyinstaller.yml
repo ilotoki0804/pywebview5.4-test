@@ -1,0 +1,36 @@
+name: Build GUI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  windows-gui-build:
+    # 윈도우 10의 경우 windows-2019를 사용할 것
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: install dependencies
+      run: |
+        pip install pywebview==5.4
+        pip install pyinstaller
+
+    - name: Build
+      run: |
+        set PYTHONOPTIMIZE=2
+        pyinstaller --windowed main.py --add-data assets:assets -y
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: main
+        path: dist/main
